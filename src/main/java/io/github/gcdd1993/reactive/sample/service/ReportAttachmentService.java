@@ -47,9 +47,9 @@ public class ReportAttachmentService {
         return form
                 .map(reportAttachmentMapper::form2PO)
                 .flatMap(reportAttachmentRepository::save)
-                .doOnSuccess(__ -> {
-                    throw new RuntimeException("test transaction");
-                })
+//                .doOnSuccess(__ -> {
+//                    throw new RuntimeException("test transaction");
+//                })
                 .doOnError(ex -> {
                     log.error("save report attachment error", ex);
                 })
@@ -69,6 +69,29 @@ public class ReportAttachmentService {
                 .map(reportAttachmentMapper::toBO)
                 ;
 
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED, timeout = 5)
+    public Mono<ReportAttachmentBo> createOrUpdate(Mono<ReportAttachmentForm> form) {
+        return form
+                .flatMap(it ->
+                        reportAttachmentRepository.findByProjectIdAndDateAndType(
+                                Mono.just(it.getProjectId()),
+                                Mono.just(it.getDate()),
+                                Mono.just(it.getType())
+                        )
+                                .map(po -> {
+                                    reportAttachmentMapper.copy(it, po);
+                                    return po;
+                                })
+                                .defaultIfEmpty(reportAttachmentMapper.form2PO(it))
+                )
+                .flatMap(reportAttachmentRepository::save)
+                .map(reportAttachmentMapper::toBO)
+                .doOnError(ex -> {
+                    log.error("save or update error", ex);
+                })
+                ;
     }
 
 }

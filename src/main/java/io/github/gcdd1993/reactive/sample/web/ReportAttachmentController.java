@@ -45,10 +45,18 @@ public class ReportAttachmentController {
                 ;
     }
 
-    @GetMapping("/{projectId}")
+    @GetMapping("/{projectId:[0-9]+}")
     public Flux<ReportAttachmentVo> get(@PathVariable Integer projectId) {
         return reportAttachmentService
                 .get(Mono.just(projectId))
+                .map(reportAttachmentMapper::toVO)
+                ;
+    }
+
+    @PostMapping("/createOrUpdate")
+    public Mono<ReportAttachmentVo> createOrUpdate(@RequestBody Mono<ReportAttachmentForm> form) {
+        return reportAttachmentService
+                .createOrUpdate(form)
                 .map(reportAttachmentMapper::toVO)
                 ;
     }

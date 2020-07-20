@@ -15,7 +15,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReportAttachmentForm {
-    private Long id;
     private Integer projectId;
     private Integer type;
     private String url;

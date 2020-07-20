@@ -5,3 +5,6 @@ spring:
     password: maxtropy
     pool:
       max-size: 32
+logging:
+  level:
+    web: debug
