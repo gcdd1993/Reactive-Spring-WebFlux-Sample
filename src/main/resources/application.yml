@@ -1,0 +1,7 @@
+spring:
+  r2dbc:
+    url: 'r2dbc:postgresql://10.9.108.139:5432/dbpe_prod'
+    username: maxtropy
+    password: maxtropy
+    pool:
+      max-size: 32
