@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.r2dbc.core.DatabaseClient;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -23,7 +22,7 @@ public class AlarmLogController {
 
     private final DatabaseClient databaseClient;
 
-    @PreAuthorize("hasAuthority('admin')")
+//    @PreAuthorize("hasAuthority('admin')")
     @GetMapping("/list")
     public Flux<AlarmLogPo> list() {
 //        return alarmLogRepository.findAll();
@@ -36,7 +35,7 @@ public class AlarmLogController {
         return Mono.empty();
     }
 
-    @PreAuthorize("hasAnyAuthority('ROLE_admin')")
+//    @PreAuthorize("hasAnyAuthority('ROLE_admin')")
     @GetMapping("/query")
     public Mono<Page<AlarmLogPo>> page(@RequestParam Long alertRuleId,
                                        @RequestParam Integer page,
