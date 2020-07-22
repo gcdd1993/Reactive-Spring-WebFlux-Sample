@@ -7,6 +7,7 @@ import io.github.gcdd1993.reactive.sample.vo.ReportAttachmentVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -17,6 +18,7 @@ import java.time.LocalDate;
  * @author Gcdd1993
  */
 @Slf4j
+@Validated
 @RestController
 @RequestMapping("/statistics")
 @RequiredArgsConstructor
@@ -54,7 +56,8 @@ public class ReportAttachmentController {
     }
 
     @PostMapping("/createOrUpdate")
-    public Mono<ReportAttachmentVo> createOrUpdate(@RequestBody Mono<ReportAttachmentForm> form) {
+    public Mono<ReportAttachmentVo> createOrUpdate(@RequestBody
+                                                   @Validated Mono<ReportAttachmentForm> form) {
         return reportAttachmentService
                 .createOrUpdate(form)
                 .map(reportAttachmentMapper::toVO)

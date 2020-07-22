@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 /**
@@ -15,8 +17,16 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReportAttachmentForm {
+
+    @NotNull
     private Integer projectId;
+
+    @NotNull
     private Integer type;
+
+    @NotEmpty
     private String url;
+
+    @NotNull
     private LocalDate date;
 }
